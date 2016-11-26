@@ -1,3 +1,12 @@
+"""
+Developed by - Avikalp Srivastava
+Page - github.com/Avikalp7
+Description:
+A learning program that plays with the users and depends on their inputs to learn optimal strategy
+in the classic game of tic-tac-toe.
+Concepts used - Reinforcement/ Q-Learning  
+"""
+
 import copy
 import pickle
 import prettytable
@@ -104,6 +113,11 @@ def convert_state_to_decimal(state):
 		three_pow /= 3
 	return decimal_value 
 
+def user_input():
+	""" Returns False for continue, True for exit """
+	input_str = raw_input('Enter \'X\' to exit, any other string to continue: ')
+	return input_str == 'X'
+
 
 def main():
 	learning_rate = 0.0
@@ -111,7 +125,7 @@ def main():
 		state_num_temp = pickle.load(open('save_vstar.p', 'rb'))		# Check if any progress exists
 		choice = raw_input('Load previous progress - Y\~Y : ')	
 		if choice == 'Y':
-			state_num = state_num_temp
+			state_num = state_num_temp									# State_Num capture the V* values for states(their dec value)
 		else:
 			state_num = [0]*19683
 	except:
@@ -128,41 +142,42 @@ def main():
 	
 	iter1 = True														# 1st iteration Bool												
 	while(True):
-		pickle.dump(state_num, open('save_vstar.p', 'wb'))			# Save the progress thus far
-		if iter1:
+		pickle.dump(state_num, open('save_vstar.p', 'wb'))				# Save the progress thus far
+		if iter1:														# iter1 is set to false down below
 			print 'Current State of the Game :'
 			t = PrettyTable(header = False, hrules = prettytable.ALL)
 			t.add_row([mapping[current_state[0][0]], mapping[current_state[0][1]], mapping[current_state[0][2]]])
 			t.add_row([mapping[current_state[1][0]], mapping[current_state[1][1]], mapping[current_state[1][2]]])
 			t.add_row([mapping[current_state[2][0]], mapping[current_state[2][1]], mapping[current_state[2][2]]])
 			print t
-			# iter1 is set to false down below
+			
 
 		print 'Machine Thinking...'
 		time.sleep(1)
 
+		# Get list of all valid states the machine can goto
 		goto_states = vaild_goto_states(current_state, good_states, bad_states)
-		n = len(goto_states)
+		
+		# Now we find the state with the largest V* / state_num value in the goto states
 		max_vstar = -10000
 		for state in goto_states:
-			temp = state_num[convert_state_to_decimal(state)]
-			if temp > max_vstar:
-				max_vstar = temp
+			temp_max = state_num[convert_state_to_decimal(state)]
+			if temp_max > max_vstar:
+				max_vstar = temp_max
 				try:
 					goto_state[:] = []
 				except:
 					pass
 				goto_state = copy.deepcopy(state)
-
+		# If the machine is returning to initial state, notify it to the user
 		if goto_state == init_state:
 			current_state = copy.deepcopy(init_state)
 			print 'Returning to initial state'
 			continue
-		
-		temp = learning_rate*state_num[convert_state_to_decimal(goto_state)]
-		
-		state_num[convert_state_to_decimal(current_state)] = temp
-		
+		# Setting the value of state_num/ V* for the current state based on the goto state chosen
+		state_num_current_state = learning_rate*state_num[convert_state_to_decimal(goto_state)]
+		state_num[convert_state_to_decimal(current_state)] = state_num_current_state
+		# Now goto state has become the current state
 		current_state[:] = []
 		current_state = copy.deepcopy(goto_state)
 
@@ -177,22 +192,28 @@ def main():
 			print 'The machine has won!\nRise of the planet of the Duex Machina!'
 			current_state[:] = []
 			current_state = copy.deepcopy(init_state)
-			temp = raw_input('Press enter to continue')
-			continue
+			if user_input():
+				exit(0)
+			else:
+				continue
 
 		if current_state in bad_states:
 			print 'User has won'
 			current_state[:] = []
 			current_state = copy.deepcopy(init_state)
-			temp = raw_input('Press enter to continue')
-			continue
+			if user_input():
+				exit(0)
+			else:
+				continue
 
 		if current_state in tie_states:
 			print 'Its a TIE!'
 			current_state[:] = []
 			current_state = copy.deepcopy(init_state)
-			temp = raw_input('Press enter to continue')
-			continue
+			if user_input():
+				exit(0)
+			else:
+				continue
 
 		print 'YOUR MOVE!'
 		i = -1
@@ -228,15 +249,19 @@ def main():
 			print 'User has won!'
 			current_state[:] = []
 			current_state = copy.deepcopy(init_state)
-			temp = raw_input('Press enter to continue')
-			continue
+			if user_input():
+				exit(0)
+			else:
+				continue
 		
 		if current_state in tie_states:
 			print 'Its a TIE!'
 			current_state[:] = []
 			current_state = copy.deepcopy(init_state)
-			temp = raw_input('Press enter to continue')
-			continue
+			if user_input():
+				exit(0)
+			else:
+				continue
 
 
 if __name__ == '__main__':
