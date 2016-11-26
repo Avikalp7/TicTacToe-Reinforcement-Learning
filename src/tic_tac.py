@@ -66,8 +66,6 @@ def set_initial_values(state_num, good_states, bad_states, tie_states):
 	Sets the initial values for leaarning rate, intitial V* values for good/bad/tie final states 
 	It also buids the sets - good/bad/tie sets, each containing all possible sets of their respective scenario
 	"""
-	global learning_rate
-	learning_rate = 0.5
 	good_value = 1000
 	bad_value = -1000
 	tie_value = 100
@@ -115,21 +113,22 @@ def convert_state_to_decimal(state):
 
 def user_input():
 	""" Returns False for continue, True for exit """
-	input_str = raw_input('Enter \'X\' to exit, any other string to continue: ')
+	input_str = raw_input('Enter \'X\' to exit, Enter / any other string to continue: ')
 	return input_str == 'X'
 
 
 def main():
-	learning_rate = 0.0
+	learning_rate = 0.5
+	state_num = [0]*19683												# State_Num capture the V* values for states(their dec value)
 	try:
 		state_num_temp = pickle.load(open('save_vstar.p', 'rb'))		# Check if any progress exists
 		choice = raw_input('Load previous progress - Y\~Y : ')	
 		if choice == 'Y':
-			state_num = state_num_temp									# State_Num capture the V* values for states(their dec value)
+			state_num = state_num_temp									
 		else:
 			state_num = [0]*19683
 	except:
-		state_num = [0]*19683											# No progress => zero initialization
+		pass
 
 	good_states = []
 	bad_states = []
