@@ -189,7 +189,7 @@ def main():
 		print t
 
 		if current_state in good_states:
-			print 'The machine has won!\nRise of the planet of the Duex Machina!'
+			print 'The machine has won!\nRise of the Deux Ex Machina.'
 			current_state[:] = []
 			current_state = copy.deepcopy(init_state)
 			if user_input():
