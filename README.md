@@ -3,7 +3,13 @@ A learning program that plays with the users and depends on their inputs to lear
 in the classic game of tic-tac-toe.
 
 ### Running the Script
-- Ensure you have python(>2) on your system
+- Ensure you have python(>2) and pip on your system.
+
+1) Through PyPI:
+- pip install tictactoe_learn
+- python -m tictactoe_learn
+
+2) Throuh Repository:
 - Use the following commands for dependencies:
   - pip install prettytable
   - ~~pip install pickle~~
