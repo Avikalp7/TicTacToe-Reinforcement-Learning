@@ -6,7 +6,7 @@ in the classic game of tic-tac-toe.
 - Ensure you have python(>2) on your system
 - Use the following commands for dependencies:
   - pip install prettytable
-  - pip install pickle
+  - ~~pip install pickle~~
 - Clone this repository
 - Run 'python tic_tac.py' in the src directory
 
