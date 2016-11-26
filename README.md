@@ -1,5 +1,6 @@
-# TicTacToe_Reinforcement-Learning
-A Q-Learning based Tic-Tac-Toe game that learns by gaining experience from playing with the user.
+# TicTacToe Reinforcement Learning
+A learning program that plays with the users and depends on their inputs to learn optimal strategy
+in the classic game of tic-tac-toe.
 
 ### Running the Script
 - Ensure you have python(>2) on your system
