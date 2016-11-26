@@ -21,4 +21,7 @@ in the classic game of tic-tac-toe.
 - If you choose not to load your progress however, your previous progress will be lost and current one will be saved. Progress versions are not yet supported
 
 ### Sneak-Peaks from the Gameplay
-[To be added soon]
+![ScreenShot](screenshots/sc1.png)
+
+![ScreenShot](screenshots/sc2.png)
+
